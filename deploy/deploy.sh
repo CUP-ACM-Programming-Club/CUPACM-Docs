@@ -10,7 +10,7 @@ git clone https://github.com/CUP-ACM-Programming-Club/CUPACM-Docs.git -b gh-page
 rm -rf pages/*.html
 rm -rf pages/assets
 rm -rf pages/dist
-cp -r docs/.vuepress/dist pages
+cp -r docs/.vuepress/dist/* pages
 cd pages
 git add -A
 git commit -m "deploy `TZ=UTC-8 date +'%Y-%m-%d %H:%M:%S'`"
