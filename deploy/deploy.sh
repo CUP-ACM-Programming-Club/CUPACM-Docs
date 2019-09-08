@@ -16,13 +16,9 @@ git init
 git add -A
 git commit -m 'deploy'
 
-git config --local user.name "Travis CI"
-git config --local user.email "lhybh@qq.com"
-
 # 如果发布到 https://<USERNAME>.github.io
 # git push -f git@github.com:<USERNAME>/<USERNAME>.github.io.git master
 
 # 如果发布到 https://<USERNAME>.github.io/<REPO>
-git push -f git@github.com:CUP-ACM-Programming-Club/CUPACM-Docs.git master:gh-pages
-
+git push -f https://${push_docs}@github.com/CUP-ACM-Programming-Club/CUPACM-Docs.git master:gh-pages
 cd -
