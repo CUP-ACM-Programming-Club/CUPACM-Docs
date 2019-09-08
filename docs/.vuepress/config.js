@@ -30,9 +30,6 @@ module.exports = {
             },
             {
                 text: '构建本文档', link: '/contribute/index'
-            },
-            {
-                text: 'Github地址', link: 'https://github.com/CUP-ACM-Programming-Club/CUPACM-Docs'
             }
         ]
     }
