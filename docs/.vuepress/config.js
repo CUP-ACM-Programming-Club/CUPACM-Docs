@@ -7,6 +7,11 @@ module.exports = {
         lineNumbers: true
     },
     themeConfig: {
+        repo: 'CUP-ACM-Programming-Club/CUPACM-Docs',
+        editLinks: true,
+        docsDir: 'docs',
+        docsBranch: 'master',
+        editLinkText: '在Github上编辑此页面',
         sidebar: {
             '/code_template/': loadLocaleMessages('code_template'),
             '/solution/': loadLocaleMessages('solution'),
