@@ -7,12 +7,17 @@ set -e
 npm run docs:build
 
 # 进入生成的文件夹
-cd docs/.vuepress/dist
+# cd docs/.vuepress/dist
 
 # 如果是发布到自定义域名
 # echo 'www.example.com' > CNAME
 
-git init
+git clone https://github.com/CUP-ACM-Programming-Club/CUPACM-Docs.git -b gh-pages gh-pages
+
+cp -r docs/.vuepress/dist gh-pages
+
+cd gh-pages
+
 git add -A
 git config user.name 'Ryan Lee'
 git config user.email 'gxlhybh@gmail.com'
