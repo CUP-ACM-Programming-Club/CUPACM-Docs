@@ -1,5 +1,6 @@
 ---
 title: 更新本文档
+sidebarDepth: 2
 ---
 
 # 介绍
