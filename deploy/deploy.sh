@@ -15,12 +15,11 @@ cd docs/.vuepress/dist
 git init
 git add -A
 git commit -m 'deploy'
-git config user.email 'gxlhybh@gmail.com'
-git config user.name 'Ryan Lee'
 
 # 如果发布到 https://<USERNAME>.github.io
 # git push -f git@github.com:<USERNAME>/<USERNAME>.github.io.git master
 
 # 如果发布到 https://<USERNAME>.github.io/<REPO>
-git push -f https://${push_docs}@github.com/CUP-ACM-Programming-Club/CUPACM-Docs.git master:gh-pages
+git push -f git@github.com:CUP-ACM-Programming-Club/CUPACM-Docs.git master:gh-pages
+
 cd -
