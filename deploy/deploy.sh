@@ -10,7 +10,7 @@ git clone https://github.com/CUP-ACM-Programming-Club/CUPACM-Docs.git -b gh-page
 cp -r docs/.vuepress/dist pages
 cd pages
 git add -A
-git commit -m 'deploy `TZ=UTC-8 date +'%Y-%m-%d %H:%M:%S'`'
+git commit -m "deploy `TZ=UTC-8 date +'%Y-%m-%d %H:%M:%S'`"
 git config user.email 'gxlhybh@gmail.com'
 git config user.name 'Ryan Lee'
 git push -f git@github.com:CUP-ACM-Programming-Club/CUPACM-Docs.git master:gh-pages
