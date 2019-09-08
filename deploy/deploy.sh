@@ -7,6 +7,9 @@ set -e
 npm run docs:build
 
 git clone https://github.com/CUP-ACM-Programming-Club/CUPACM-Docs.git -b gh-pages pages
+rm -rf pages/*.html
+rm -rf pages/assets
+rm -rf pages/dist
 cp -r docs/.vuepress/dist pages
 cd pages
 git add -A
