@@ -23,7 +23,7 @@ module.exports = {
                 text: '题解', link: '/solution/index'
             },
             {
-                text: '构建本文档', link: '/contribute/guide'
+                text: '构建本文档', link: '/contribute/index'
             }
         ]
     }
