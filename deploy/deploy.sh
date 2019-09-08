@@ -15,6 +15,8 @@ cd docs/.vuepress/dist
 git init
 git add -A
 git commit -m 'deploy'
+git config user.email 'gxlhybh@gmail.com'
+git config user.name 'Ryan Lee'
 
 # 如果发布到 https://<USERNAME>.github.io
 # git push -f git@github.com:<USERNAME>/<USERNAME>.github.io.git master
