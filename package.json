@@ -1,0 +1,27 @@
+{
+  "name": "cupacm-docs",
+  "version": "0.0.1",
+  "description": "CUPACM Programming Club docs",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ryanlee2014/CUPACM-Docs.git"
+  },
+  "author": "Ryan Lee",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ryanlee2014/CUPACM-Docs/issues"
+  },
+  "homepage": "https://github.com/ryanlee2014/CUPACM-Docs#readme",
+  "devDependencies": {
+    "vuepress": "^1.0.4"
+  }
+}
