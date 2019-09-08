@@ -23,5 +23,8 @@
   "homepage": "https://github.com/ryanlee2014/CUPACM-Docs#readme",
   "devDependencies": {
     "vuepress": "^1.0.4"
+  },
+  "dependencies": {
+    "glob": "^7.1.4"
   }
 }
