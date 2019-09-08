@@ -19,8 +19,8 @@ cp -r docs/.vuepress/dist gh-pages
 cd gh-pages
 
 git add -A
-git config user.name 'Ryan Lee'
-git config user.email 'gxlhybh@gmail.com'
+git config --global user.name 'Ryan Lee'
+git config --global user.email 'gxlhybh@gmail.com'
 git commit -m 'deploy'
 
 # 如果发布到 https://<USERNAME>.github.io/<REPO>
