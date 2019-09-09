@@ -15,12 +15,20 @@ footer: MIT Licensed | Copyright @ 2019-present CUPACM Programming Club
 ---
 
 # 本地构建
+::: tip
+请阅读右上角的构建本文档
+:::
 ```shell script
-git clone https://github.com/CUP-ACM-Programming-Club/CUPACM-Docs.git
+# fork到你的Github仓库
+
+# Clone到本地
+git clone https://github.com/your_github_name/CUPACM-Docs.git
 
 # 写作
 npm run docs:dev
 
-# 构建
-npm run docs:build
+# 推至Github
+git push
+
+# 提交PR
 ```
