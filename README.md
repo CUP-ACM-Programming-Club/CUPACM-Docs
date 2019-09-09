@@ -15,4 +15,4 @@ $ npm run docs:dev
 ```
 
 ## publish
-该仓库使用Travis CI自动发布。合并到该仓库后可在https://docs.cupacm.com查看
+该仓库使用Travis CI自动发布。合并到该仓库后可在[https://docs.cupacm.com](https://docs.cupacm.com)查看
