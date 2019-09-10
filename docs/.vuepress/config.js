@@ -1,10 +1,13 @@
 const glob = require('glob');
-
 module.exports = {
     base: '/',
     title: "CUPACM Documents",
+    head: [
+        ['link', { rel: 'stylesheet', href: 'https://shadow.elemecdn.com/npm/katex@0.11.0/dist/katex.min.css' }]
+    ],
     markdown: {
-        lineNumbers: true
+        lineNumbers: true,
+        plugins: ['@ryanlee2014/katex']
     },
     themeConfig: {
         repo: 'CUP-ACM-Programming-Club/CUPACM-Docs',
