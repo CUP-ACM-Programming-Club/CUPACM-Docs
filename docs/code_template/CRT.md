@@ -7,9 +7,9 @@ title: 中国剩余定理
 ## 说明
 
 求解同余方程组
-$$
-\left\{\begin{array}{l}{x \equiv a_{1}\left(\bmod m_{1}\right)} \\ {x \equiv a_{2}\left(\bmod m_{2}\right)} \\ {x \equiv a_{3}\left(\bmod m_{3}\right)} \\ {\ldots} \\ {x \equiv a_{k}\left(\bmod m_{k}\right)}\end{array}\right.
-$$
+
+$$x \equiv a_1 \; (\text{mod}\;m_1) \\x \equiv a_2 \; (\text{mod}\;m_2) \\\dots \\x \equiv a_k \; (\text{mod}\;m_k)$$
+
 求x的最小非负整数解
 
 [P4777 【模板】扩展中国剩余定理（EXCRT）](https://www.luogu.org/problem/P4777)
@@ -18,9 +18,7 @@ $$
 
 ## 使用
 
-```cpp
-输入N个a,N个m
-```
+输入$N$个$a$,$N$个$m$
 
 ## Tips
 
@@ -71,8 +69,3 @@ int main(){
     printf("%lld\n",fun());
 } 
 ```
-
-```
-
-```
-
