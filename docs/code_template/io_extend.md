@@ -21,7 +21,7 @@ fin >> a >> b >> c >> d >> str << a << b << c << d << str;(wwww)
 ```
 
 ## Tips
-::: warn
+::: warning
 若不存在宏定义`ONLINE_JUDGE`,输入输入将使用`cin`
 :::
 ## 代码
