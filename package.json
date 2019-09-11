@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/ryanlee2014/CUPACM-Docs#readme",
   "devDependencies": {
+    "@vuepress/plugin-back-to-top": "^1.0.0-rc.1",
     "vuepress": "^1.0.4"
   },
   "dependencies": {
