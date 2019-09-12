@@ -4,8 +4,6 @@ title: SPFA最短路&&判断正负环
 
 # SPFA最短路(扩展判断正负环)
 
-Writer:Slian
-
 ## 说明
 
 **在没有负环、单纯求最短路径，不建议使用SPFA算法，而是用Dijkstra算法。**在有负环的情况下，可以考虑SPFA算法。
