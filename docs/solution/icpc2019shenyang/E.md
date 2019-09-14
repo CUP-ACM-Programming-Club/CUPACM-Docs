@@ -9,6 +9,8 @@ title: E.Gugugu's upgrade schemes
 用贝尔三角预处理贝尔数,对于$B_{n}, n \geq mod$的情况，有
 $$
 B_{p+n} \equiv B_n+B_{n+1}(\bmod p)
+$$
+$$
 B_{p^m+n} \equiv mB_n+B_{n+1}(\bmod p)
 $$
 ## 代码
