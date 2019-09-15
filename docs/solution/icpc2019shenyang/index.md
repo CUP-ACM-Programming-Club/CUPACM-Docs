@@ -4,6 +4,10 @@ title: 概述
 
 # ICPC2019沈阳网络赛
 
+## 官方题解
+[tutorial.pdf](/solution/icpc2019shenyang/tutorial.pdf)
+
+## 通过情况
 * 通过 6/11
 * 校排名: 112
 

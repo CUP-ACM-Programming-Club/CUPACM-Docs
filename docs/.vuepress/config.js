@@ -48,22 +48,10 @@ function loadSidebarContents() {
         .sort((a, b) => a === b ? 0 : a > b ? -1 : 1)
         .forEach(dir => {
             const filePath = path.resolve(__dirname, `../${dir}/manifest`);
-            let manifest = {};
-            if (fs.existsSync(`${filePath}.js`)) {
-                manifest = require(filePath);
-            }
+            const manifest = fs.existsSync(`${filePath}.js`) ? require(filePath) : {};
             const sidebarList = loadDirContents(dir.substring(1));
-            if (manifest.sort) {
-                if (typeof manifest.sortFn === "function") {
-                    sidebarMap[`${dir}/`] = sidebarList.sort(manifest.sortFn);
-                }
-                else {
-                    sidebarList[`${dir}/`] = sidebarList.sort();
-                }
-            }
-            else {
-                sidebarMap[`${dir}/`] = sidebarList;
-            }
+            const sortFn = manifest.sort ? sidebarList.sort: el => el;
+            sidebarMap[`${dir}/`] = sortWrapper(sidebarList, sortFn, manifest.sortFn);
         });
     return sidebarMap
 }
@@ -75,4 +63,9 @@ function loadDirContents(dir) {
             .replace('\.md', ''))
         .filter(e => e !== 'index')
     ];
+}
+
+function sortWrapper(iterableObject, sortFn, compareFn) {
+    sortFn.call(iterableObject, compareFn);
+    return iterableObject;
 }
