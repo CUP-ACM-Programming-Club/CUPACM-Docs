@@ -10,7 +10,7 @@ $b$进制下有
 $$
 \begin{aligned}
 S(0) &= 0 \\
-S(b * n + k) &= S(n) + k (k < b, n \leq 0)
+S(b * n + k) &= S(n) + k (k < b, n \geq 0)
 \end{aligned}
 $$
 
