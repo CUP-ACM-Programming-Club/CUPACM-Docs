@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/ryanlee2014/CUPACM-Docs#readme",
   "devDependencies": {
+    "@dovyp/vuepress-plugin-clipboard-copy": "^1.0.0-alpha.7",
     "@vuepress/plugin-back-to-top": "^1.0.0-rc.1",
     "vuepress": "^1.0.4"
   },

@@ -7,7 +7,10 @@ module.exports = {
     head: [
         ['link', {rel: 'stylesheet', href: 'https://shadow.elemecdn.com/npm/katex@0.11.0/dist/katex.min.css'}]
     ],
-    plugins: ['@vuepress/back-to-top'],
+    plugins: [
+        ['@vuepress/back-to-top'],
+        ['@dovyp/vuepress-plugin-clipboard-copy', true]
+        ],
     markdown: {
         lineNumbers: true,
         plugins: ['@ryanlee2014/katex']
