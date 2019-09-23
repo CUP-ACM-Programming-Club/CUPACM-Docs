@@ -12,7 +12,7 @@ title: Dijkstra
 
 :::
 
-[题目：](https://www.luogu.org/problem/P4779)给定一个 *N*个点，*M*条有向边的带非负权图，请你计算从 *S* 出发，到每个点的距离。
+[题目：Luogu P4779](https://www.luogu.org/problem/P4779)给定一个 *N*个点，*M*条有向边的带非负权图，请你计算从 *S* 出发，到每个点的距离。
 
 数据保证你能从 *S* 出发到任意点。
 
