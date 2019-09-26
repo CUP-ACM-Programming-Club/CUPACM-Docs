@@ -35,6 +35,9 @@ module.exports = {
             },
             {
                 text: '构建本文档', link: '/contribute/'
+            },
+            {
+                text: 'Jetbrains教育版申请', link: '/tools/'
             }
         ]
     }
