@@ -90,7 +90,7 @@ macOS用户无需切换盘符
 
 ## Forth：Windows10修改中文用户文件夹
 
-**尽早将所有文件名不要用中文命名，这是一个好习惯。（不然配置编译器的时候就会很吃亏）**
+**尽早将所有文件名用英文命名，这是一个好习惯。（不然配置编译器的时候就会很吃亏）**
 
 参考文章：Windows10_如何修改用户文件夹下的中文用户文件夹名
 
@@ -191,7 +191,7 @@ E:\ Dev-Cpp\MinGW64
 
 然后OK，等一段时间就可以了。
 
-## Sixth：运行一个简单的Program
+## Seventh：运行一个简单的Program
 
 · 左上角File->New Project
 
@@ -219,7 +219,7 @@ Create以后，出现以下画面，稍微等一会（CLion在加载程序）
 
 The End。
 
-## Seventh：CLion进阶
+## Eighth：CLion进阶
 
 [CLion基本使用方法](https://blog.csdn.net/CSDNhuaong/article/details/88094027)
 
