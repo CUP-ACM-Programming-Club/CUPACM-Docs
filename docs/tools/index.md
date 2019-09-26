@@ -16,7 +16,7 @@ title: CLion安装和激活
 
 ## 关于ToolBox
 
-![image1](image\image1.png)
+![image1](image/image1.png)
 
 
 
@@ -26,32 +26,32 @@ title: CLion安装和激活
 
 登录中国石油大学（北京）学生邮箱（http://mail.student.cup.edu.cn/），默认用户名为学号（例如2017010001），默认密码为生日（例如20000101），第一次登录后需要修改密码，请务必牢记修改后的密码。
 
-![image2](image\image2.png)
+![image2](image/image2.png)
 
 ## Second: 申请Toolbox
 
 点击前往[JetBrains Toolbox 专业开发工具
  学生免费授权计划](https://www.jetbrains.com/zh/student/)
 
-![image3](image\image3.png)
+![image3](image/image3.png)
 
-![image4](image\image4.png)
+![image4](image/image4.png)
 
 点击立刻申请，就会出现以下画面
 
-![image5](image\image5.png)
+![image5](image/image5.png)
 
 填写
 
-![image6](image\image6.png)
+![image6](image/image6.png)
 
 以下必点
 
-![image7](image\image7.png)
+![image7](image/image7.png)
 
 重新打开学生邮箱，此时会看到来自Jetbrains的验证邮件，点击链接即可。
 
-![image8](image\image8.png)
+![image8](image/image8.png)
 
 在新打开的页面中设置Jetbrains账号的密码即可。
 
@@ -69,11 +69,11 @@ macOS用户同样需要注意用户名问题，请参考macOS的用户名更改�
 
 如果你的用户名字为中文（之前我得用户名为C:\Users\单联天）,请务必设置第四步。如果用户名为英语，即可跳过第四步。
 
-![image9](image\image9.png)
+![image9](image/image9.png)
 
 下载完成以后
 
-![image10](image\image10.png)
+![image10](image/image10.png)
 
 点击右上角的Setting键，找到相关目录，然后找到文档目录，将文件迁到别的盘（为了节省C盘空间）
 ::: tip
@@ -117,13 +117,13 @@ macOS用户更改用户名的教程请自行通过搜索引擎查找。
 
   最终文档目录在开始菜单中的最近添加显示
 
-![image11](image\image11.png)
+![image11](image/image11.png)
 
 ### 激活
 
   打开CLion，在出现的激活窗口输入Jetbrains账号（学生邮箱）密码（自己设定），点击“Activate”按钮即可。
 
-  ![image12](image\image12.png)
+  ![image12](image/image12.png)
 
 ## Sixth：配置CLion
 
@@ -148,18 +148,18 @@ set(CMAKE_CXX_COMPILER /user/local/bin/g++-9)
 这里必须注意的是下载压缩包，不要下载离线安装的版本，不然你会装到猴年马月，而且安装难度较大。
 打开下载地址：[MinGW](https://sourceforge.net/projects/mingw-w64/files/Toolchains%20targetting%20Win64/Personal%20Builds/mingw-builds/) 进入下载页面
 
-![image13](image\image13.png)
+![image13](image/image13.png)
 
 **注意：不要手贱点绿色按钮去下载！！！**
 往下拉，一直拉到下面的界面，然后就可以下载压缩包了。
 
-![image14](image\image14.png)
+![image14](image/image14.png)
 
 下载了以后必须是解压啊，然后开始配置CLion。
 
 打开CLion，左上角File-Settings-Build-Toolchains，然后点击 **+** 号
 
-![image15](image\image15.png)
+![image15](image/image15.png)
 
 Environment选择MinGW，然后填入刚刚解压的MinGW64的路径（这是我的路径）：
 
@@ -181,9 +181,9 @@ E:\FOrMinGW\mingw64
 
 同样地，打开CLion，左上角File-Settings-Build-Toolchains，然后点击 **+** 号
 
-![image16](image\image16.png)
+![image16](image/image16.png)
 
-![image17](image\image17.png)
+![image17](image/image17.png)
 
 Environment选择MinGW，然后填入刚刚安装的dev cpp的MinGW64的路径：
 
@@ -195,27 +195,27 @@ E:\ Dev-Cpp\MinGW64
 
 · 左上角File->New Project
 
-![image18](image\image18.png)
+![image18](image/image18.png)
 
 Location是你的存放程序的地址。
 
 我这里设置的是E:\HelloWorld
 
-![image19](image\image19.png)
+![image19](image/image19.png)
 
 Create以后，出现以下画面，稍微等一会（CLion在加载程序）
 
-![image20](image\image20.png)
+![image20](image/image20.png)
 
 右键程序（随便一处就行）
 
 点击Run ‘HelloWorld’或者使用快捷键Ctrl+Shift+F10运行程序
 
-![image21](image\image21.png)
+![image21](image/image21.png)
 
 或者点击右上角的绿色剪头即可运行程序。
 
-![image22](image\image22.png)
+![image22](image/image22.png)
 
 The End。
 
