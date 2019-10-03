@@ -1,3 +1,7 @@
+---
+title: CLion安装和激活
+---
+
 ::: tip
 本文原作者为[@Slian](https://github.com/Slian22)
 :::
