@@ -1,6 +1,7 @@
 ---
 title: CLion安装和激活
 ---
+
 ::: tip
 本文原作者为[@Slian](https://github.com/Slian22)
 :::
@@ -8,6 +9,10 @@ title: CLion安装和激活
 # CLion安装和激活
 ::: tip
 [@ryanlee2014](https://github.com/ryanlee2014): Jetbrains套件下的其他IDE也可以使用本Manual的前五点完成激活。
+:::
+
+::: tip
+[RhythmLian](https://github.com/Rhythmicc): CLion的实用扩展工具。
 :::
 
 ::: warning
@@ -24,7 +29,7 @@ title: CLion安装和激活
 
 ## First: 获得Toolbox学生免费正版
 
-登录中国石油大学（北京）学生邮箱（http://mail.student.cup.edu.cn/），默认用户名为学号（例如2017010001），默认密码为生日（例如20000101），第一次登录后需要修改密码，请务必牢记修改后的密码。
+登录[中国石油大学（北京）学生邮箱](http://mail.student.cup.edu.cn/)，默认用户名为学号（例如2017010001），默认密码为生日（例如20000101），第一次登录后需要修改密码，请务必牢记修改后的密码。
 
 ![image2](image/image2.png)
 
@@ -224,3 +229,8 @@ The End。
 [CLion基本使用方法](https://blog.csdn.net/CSDNhuaong/article/details/88094027)
 
 [配置参考](https://www.jianshu.com/p/1aa989808e15)
+
+
+## Ninth: CLion扩展工具
+
+- [Qpro](https://pypi.org/project/Qpro/), author: [RhythmLian](https://github.com/Rhythmicc)
