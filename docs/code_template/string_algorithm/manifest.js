@@ -1,4 +1,4 @@
 module.exports = {
-    title: "初始设置",
+    title: "字符串算法",
     sort: false
 };
