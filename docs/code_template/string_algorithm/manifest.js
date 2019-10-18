@@ -1,4 +1,4 @@
 module.exports = {
-    title: "模板库",
+    title: "字符串算法",
     sort: false
 };
