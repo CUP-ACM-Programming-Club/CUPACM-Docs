@@ -27,15 +27,27 @@ title: CLion安装和激活
 
 简单来说，就是可以下载JetBrain全家桶（我全都要）
 
-## First: 获得Toolbox学生免费正版
+## First: 登录激活学生邮箱
 
 登录[中国石油大学（北京）学生邮箱](http://mail.student.cup.edu.cn/)，默认用户名为学号（例如2017010001），默认密码为生日（例如20000101），第一次登录后需要修改密码，请务必牢记修改后的密码。
 
 ![image2](image/image2.png)
 
-## Second: 申请Toolbox
+## Second: 申请JetBrain账号&&申请学生免费版本JetBrain全家桶
 
-点击前往[JetBrains Toolbox 专业开发工具
+**在此之前一定要申请一个JetBrain的账号**
+
+点击前往[JetBrains账号申请链接](https://account.jetbrains.com/login)
+
+Not Registered yet?
+
+**Create JetBrains Account！**
+
+**注意，你所申请的邮箱账号必须是你的学生邮箱号！**
+
+![image23](image/image23.jpg)
+
+之后请点击前往[JetBrains Toolbox 专业开发工具
  学生免费授权计划](https://www.jetbrains.com/zh/student/)
 
 ![image3](image/image3.png)
@@ -228,9 +240,9 @@ The End。
 
 [CLion基本使用方法](https://blog.csdn.net/CSDNhuaong/article/details/88094027)
 
-[配置参考](https://www.jianshu.com/p/1aa989808e15)
+[Clion配置参考](https://www.jianshu.com/p/1aa989808e15)
 
 
 ## Ninth: CLion扩展工具
 
-- [Qpro](https://pypi.org/project/Qpro/), author: [RhythmLian](https://github.com/Rhythmicc)
+- [Qpro](https://pypi.org/project/Qpro/), author: [RhythmLian](https://github.com/Rhythmicc)**(必须保证电脑拥有Python)**
