@@ -9,6 +9,7 @@ module.exports = {
     ],
     plugins: [
         ['@vuepress/back-to-top'],
+        ['mermaidjs'],
         ['@dovyp/vuepress-plugin-clipboard-copy', true]
         ],
     markdown: {
@@ -35,6 +36,9 @@ module.exports = {
             },
             {
                 text: '构建本文档', link: '/contribute/'
+            },
+            {
+                text: 'CUPOJ开发文档', link: '/oj_document/'
             },
             {
                 text: 'Jetbrains教育版申请', link: '/tools/'
