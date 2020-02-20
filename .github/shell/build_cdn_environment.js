@@ -8,6 +8,9 @@ const webPath = `https://cdn.jsdelivr.net/gh/CUP-ACM-Programming-Club/CUPACM-Doc
 function rewriteSrc (element, $, attr) {
     element.each(function (index) {
         const src = $(this).attr(attr);
+        if (src.indexOf("http") !== -1) {
+            return;
+        }
         $(this).attr(attr, webPath + src);
     })
 }
