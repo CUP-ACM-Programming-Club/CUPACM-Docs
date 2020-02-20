@@ -9,6 +9,41 @@ sidebarDepth: 2
 
 **CUP Virtual Judge由于国内各大OJ调整对海外IP地址访问的策略，现在暂时停止提交功能，保留题目内容供查询。**
 
+
+## Github Actions 持续集成
+CUP-Online-Judge-NG-FrontEnd使用了`Github Actions`进行全自动持续集成
+
+根据设置，持续集成环境配置支持
+
+* 本地构建->持续集成发布
+* 远程构建->发布
+
+### 本地构建->持续集成发布
+0. 将根目录下`NEED_BUILD`文件内容改为`false`
+1. 在本地开发环境运行`npm run modern`
+2. 运行`git add dist`将`dist`目录下所有文件加入本次变更
+3. push到Github环境，启动自动发布。
+
+### 远程构建->发布
+0. 将根目录下`NEED_BUILD`文件内容改为`true`
+1. push到Github环境，启动自动发布。
+
+### 发布目标
+
+持续集成工作流会把`dist`文件夹内容发布到`CUP-Online-Judge-CDN`仓库中，并将根据打包过程中生成的版本发布`releases`供jsDelivr缓存
+
+
+## CDN
+考虑到本系统所有前端的文件经过打包后大小高达50MB,考虑在非必要时候使用CDN分担服务器的网络压力
+
+### jsDelivr CDN
+
+[https://oj.cupacm.com](https://oj.cupacm.com)
+
+[https://www.cupacm.com](https://www.cupacm.com)
+
+以上节点使用了jsDelivr作为CDN服务提供方，通过持续集成自动部署发布版本到CUP-Online-Judge-CDN仓库，即可简单通过控制index.html更改需要部署的前端版本
+
 ## 云化
 ### Datasource
 * MySQL 使用阿里云RDS MySQL服务器

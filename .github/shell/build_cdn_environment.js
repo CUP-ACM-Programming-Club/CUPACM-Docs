@@ -1,4 +1,4 @@
-const glob = require('glob');
+const glob = require("glob");
 const fs = require("fs");
 const path = require("path");
 const cheerio = require("cheerio");
@@ -22,8 +22,6 @@ function writeSrc (element, $, dir) {
             return;
         }
         $(this).attr("src", webPath + path.join(dir, src));
-        console.log(path.join(webPath, dir, src));
-        console.log(webPath + path.join(dir, src));
     })
 }
 
