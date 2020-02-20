@@ -17,6 +17,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         name: Checkout code
+        with:
+          persist-credentials: false
+          fetch-depth: 0
 
       - name: Use Node.js environment
         uses: actions/setup-node@v1
@@ -50,5 +53,21 @@ jobs:
           git commit -m "deploy v$(cat ../VERSION) `TZ=UTC-8 date +'%Y-%m-%d %H:%M:%S'`"
           git tag "v`cat ../VERSION`"
           git push -f https://ryanlee2014:$GITHUB_TOKEN@github.com/CUP-ACM-Programming-Club/CUPACM-Docs-CDN.git master --tags
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_ACTIONS_TOKEN }}
+
+      - name: Update Github Pages
+        run: |
+          git clone https://github.com/CUP-ACM-Programming-Club/CUPACM-Docs.git -b gh-pages pages
+          rm -rf pages/*.html
+          rm -rf pages/assets
+          rm -rf pages/dist
+          cp -r docs/.vuepress/dist/* pages
+          cd pages
+          git add -A
+          git commit -m "deploy `TZ=UTC-8 date +'%Y-%m-%d %H:%M:%S'`"
+          git config user.email 'gxlhybh@gmail.com'
+          git config user.name 'Ryan Lee'
+          git push -f https://ryanlee2014:$GITHUB_TOKEN@github.com/CUP-ACM-Programming-Club/CUPACM-Docs.git gh-pages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_ACTIONS_TOKEN }}

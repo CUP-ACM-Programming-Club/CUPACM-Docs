@@ -5,7 +5,7 @@ const version = fs.readFileSync(path.resolve(process.cwd(), "VERSION"));
 
 console.log(`Version: ${version}`);
 
-const webPath = `https://cdn.jsdelivr.net/gh/CUP-ACM-Programming-Club/CUPACM-Docs@v${version}/`;
+const webPath = `https://cdn.jsdelivr.net/gh/CUP-ACM-Programming-Club/CUPACM-Docs-CDN@v${version}/`;
 module.exports = {
     base: process.env.NODE_ENV === "production" ? webPath : "/",
     title: "CUPACM Documents",
