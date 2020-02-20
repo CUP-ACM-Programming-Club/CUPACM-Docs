@@ -1,0 +1,25 @@
+name: Pull Request checker
+
+on: [pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+      - uses: actions/checkout@v2
+        name: Checkout code
+
+      - name: Use Node.js environment
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Build distribution
+        run: |
+          npm i
+          npm run docs:build
