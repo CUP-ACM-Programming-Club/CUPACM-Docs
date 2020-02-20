@@ -32,6 +32,7 @@ jobs:
         run: |
           npm i
           npm run docs:build
+          ./.github/shell/after_build.sh
 
       - name: Update version to current repository
         run: |
