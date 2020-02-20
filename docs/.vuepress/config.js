@@ -1,8 +1,13 @@
 const glob = require('glob');
 const path = require('path');
 const fs = require('fs');
+const version = fs.readFileSync(path.resolve(process.cwd(), "VERSION"));
+
+console.log(`Version: ${version}`);
+
+const webPath = `https://cdn.jsdelivr.net/gh/CUP-ACM-Programming-Club/CUPACM-Docs@v${version}/`;
 module.exports = {
-    base: '/',
+    base: process.env.NODE_ENV === "production" ? webPath : "/",
     title: "CUPACM Documents",
     head: [
         ['link', {rel: 'stylesheet', href: 'https://shadow.elemecdn.com/npm/katex@0.11.0/dist/katex.min.css'}]

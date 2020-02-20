@@ -1,0 +1,54 @@
+name: Publish releases to CDN repository
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  publish:
+    if: github.repository == 'CUP-ACM-Programming-Club/CUPACM-Docs'
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+      - uses: actions/checkout@v2
+        name: Checkout code
+
+      - name: Use Node.js environment
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Build distribution
+        run: |
+          npm i
+          npm run docs:build
+
+      - name: Checkout CDN Repository
+        uses: actions/checkout@v2
+        with:
+          repository: CUP-ACM-Programming-Club/CUPACM-Docs-CDN
+          path: cdn
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Move file to cdn folder
+        run: |
+          cp -r docs/.vuepress/dist/* cdn/
+
+
+      - name: Commit files and push
+        run: |
+          cd cdn
+          git config --local user.email "gxlhybh@gmail.com"
+          git config --local user.name "Ryan Lee"
+          git add --all
+          git commit -m "deploy v$(cat ../VERSION) `TZ=UTC-8 date +'%Y-%m-%d %H:%M:%S'`"
+          git tag "v`cat ../VERSION`"
+          git push -f https://ryanlee2014:$GITHUB_TOKEN@github.com/CUP-ACM-Programming-Club/CUPACM-Docs-CDN.git master --tags
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_ACTIONS_TOKEN }}
