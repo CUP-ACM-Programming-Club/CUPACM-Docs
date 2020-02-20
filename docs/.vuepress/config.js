@@ -7,7 +7,7 @@ console.log(`Version: ${version}`);
 
 const webPath = `https://cdn.jsdelivr.net/gh/CUP-ACM-Programming-Club/CUPACM-Docs-CDN@v${version}/`;
 module.exports = {
-    base: process.env.NODE_ENV === "production" ? webPath : "/",
+    base: "/",
     title: "CUPACM Documents",
     head: [
         ['link', {rel: 'stylesheet', href: 'https://shadow.elemecdn.com/npm/katex@0.11.0/dist/katex.min.css'}]
