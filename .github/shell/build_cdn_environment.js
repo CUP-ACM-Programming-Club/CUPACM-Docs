@@ -6,7 +6,7 @@ const version = fs.readFileSync("VERSION");
 const webPath = `https://cdn.jsdelivr.net/gh/CUP-ACM-Programming-Club/CUPACM-Docs-CDN@v${version}`;
 
 function rewriteSrc (element, $, attr) {
-    element.each(function (index) {
+    element.each(function () {
         const src = $(this).attr(attr);
         if (src.indexOf("http") !== -1) {
             return;
@@ -16,7 +16,7 @@ function rewriteSrc (element, $, attr) {
 }
 
 function writeSrc (element, $, dir) {
-    element.each(function (index) {
+    element.each(function () {
         const src = $(this).attr("src");
         if (src.indexOf("http") !== -1) {
             return;
