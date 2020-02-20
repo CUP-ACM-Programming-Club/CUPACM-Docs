@@ -56,6 +56,19 @@ jobs:
         run: |
           cp -r docs/.vuepress/dist/* cdn/
 
+      - name: Push to Coding.net
+        run: |
+          git clone https://rPjpOFiryN:$CODING_TOKEN@e.coding.net/RyanLee/CUPACM-Docs.git coding
+          cp -r docs/.vuepress/dist/* coding/
+          cd coding
+          git config --local user.email "gxlhybh@gmail.com"
+          git config --local user.name "RyanLee"
+          git add --all
+          git commit -m "deploy v$(cat ../VERSION) `TZ=UTC-8 date +'%Y-%m-%d %H:%M:%S'`"
+          git push -f https://rPjpOFiryN:$CODING_TOKEN@e.coding.net/RyanLee/CUPACM-Docs.git
+        env:
+          CODING_TOKEN: ${{ secrets.CODING_TOKEN }}
+
 
       - name: Commit files and push
         run: |
