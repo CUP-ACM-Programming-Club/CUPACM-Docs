@@ -21,8 +21,8 @@ function writeSrc (element, $, dir) {
         if (src.indexOf("http") !== -1) {
             return;
         }
-        $(this).attr("src", path.join(webPath, dir, src));
-        console.log(path.join(dir, src));
+        $(this).attr("src", webPath + path.join(dir, src));
+        console.log(path.join(webPath, dir, src));
         console.log(webPath + path.join(dir, src));
     })
 }
