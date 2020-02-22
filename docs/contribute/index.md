@@ -16,7 +16,7 @@ sidebarDepth: 2
 :::
 
 ::: warning
-本文档采用了Travis CI进行自动构建。当本文档仓库主分支产生新的Pull Request，Travis CI会根据您提交的副本进行构建测试。若您的模板无法通过正常的构建测试，我们将不会把您的Pull Request合并到主分支中，请知悉。
+本文档采用了Github Actions进行自动构建。当本文档仓库主分支产生新的Pull Request，Github Actions会根据您提交的副本进行构建测试。若您的模板无法通过正常的构建测试，我们将不会把您的Pull Request合并到主分支中，请知悉。
 :::
 
 本文档使用了全自动的部署构建，若你想帮助完善本文档，只需要简单的几步，您的更改就会自动更新到页面中。
@@ -95,6 +95,43 @@ title: 更新本文档
 
 对于您需要在文档中添加附件或图片的，请将这些文件放在`.vuepress/public`文件夹下，如本文档所示，`public`文件夹中的目录格式和`docs`下的文件夹是一一对应的，
 您可参照[ICPC2019上海](/solution/icpc2019shanghai/)中pdf的链接格式，在本项目中定位文件，对如何引入这类文件有更加深入的理解。
+
+
+#### 编写公式
+您可以使用`$`包围您的内联公式，使用`$$`包围您的单行公式。
+如
+
+这是一个$1+1=2$的内联公式
+
+$$ \displaystyle\sum_{i=1}^{5}i $$
+这是一个单行公式
+
+::: tip
+单行公式需要单独写在一行内，若和其他文本混写，渲染器将认为您的公式是文字，跳过渲染
+:::
+
+#### 使用Mermaid流程图
+若您需要在题解中添加流程图，可以参考`Mermaid`的语法，使用
+```markdown
+<mermaid>
+graph TD;
+U[Worker]--通知更新-->A[Master]
+A--广播-->B[Worker 2]
+A--广播-->C[Worker 3]
+A--广播-->D[Worker 4]
+A--广播-->E[Worker 5]
+</mermaid>
+```
+包围您所输入的流程图代码。
+效果如下:
+<mermaid>
+graph TD;
+U[Worker]--通知更新-->A[Master]
+A--广播-->B[Worker 2]
+A--广播-->C[Worker 3]
+A--广播-->D[Worker 4]
+A--广播-->E[Worker 5]
+</mermaid>
 
 ### 附加功能
 您在目录下添加文件夹时，为了实现一些扩展特性，可以在文件夹目录下添加`manifest.js`文件。
