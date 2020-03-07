@@ -10,6 +10,30 @@ sidebarDepth: 2
 **CUP Virtual Judge由于国内各大OJ调整对海外IP地址访问的策略，现在暂时停止提交功能，保留题目内容供查询。**
 
 
+## 分布式负载均衡
+由于CRUD API已充分和判题机、WebSocket服务解耦合，可通过设置反向代理实现负载均衡，进一步提升集群化后Express服务的性能。
+
+## 微服务尝试
+
+众所周知，Node.js针对计算密集型应用表现的性能远不如其他主流语言。为了解决一部分运算密集的任务，或保证应用高可用，微服务是一个值得考虑的方向。
+
+目前基于Dubbo RPC的方案正在开发中。已经完成了初始阶段的跨语言调用与注册中心的配置。
+
+有关Java微服务的内容，可查看[CUP-Online-Judge-Java-Backend](https://github.com/ryanlee2014/CUP-Online-Judge-Java-Backend)
+
+## Dockerize 尝试
+在2018年1月的时候曾经基于Docker+Node.js开发出第一代Docker Judger,这一版Docker Judger成功适配了Kotlin,但由于设计方案的缺陷，判题的速度远不如用原版非Docker的判题机。
+
+经研究发现，Dockerize的正确方法并不是直接将用户的代码丢到沙箱中编译运行，而是应该作为一个docker化的服务在后台运行。
+
+为了使容器中的判题机能够被外界感知，故设计CUP-Online-Judge-Judger-Daemon-Server与CUP-Online-Judge-Judger进行整合，通过编写Dockerfile将其封装成一个容器。
+
+通过docker-compose配置好环境变量后启动。通过暴露端口5110作为Websocket与后端协同的同时，后端将原本的判题模块改为通信模块，将判题部分和WebSocket服务解耦合，提高了原本应用的扩展性。
+
+通过docker-compose设置volumes,将判题机的配置文件和数据文件夹映射到判题机容器中，便于独立设置判题机参数。
+
+docker-compose文件可以在[CUP-Online-Judge-NG-Docker-Judger](https://github.com/ryanlee2014/CUP-Online-Judge-NG-Docker-Judger)找到
+
 ## Github Actions 持续集成
 CUP-Online-Judge-NG-FrontEnd使用了`Github Actions`进行全自动持续集成
 
