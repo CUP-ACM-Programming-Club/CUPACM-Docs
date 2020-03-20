@@ -9,6 +9,277 @@ sidebarDepth: 2
 
 **CUP Virtual Judge由于国内各大OJ调整对海外IP地址访问的策略，现在暂时停止提交功能，保留题目内容供查询。**
 
+## 判题机重构
+本OJ判题机重构自HUSTOJ。
+由于需求的变更，当前的判题机和原本的HUSTOJ有了很大的差别。CUPOJ Judger无法向下兼容HUSTOJ。
+~~也许HUSTOJ可以向上兼容CUPOJ~~
+
+本判题机和原判题机的区别是对判题语言模块进行了抽象，并将除了判题机核心模块做成动态模块，可自行动态引用。
+同时，HUSTOJ判题机使用libmysql-devel等mysql提供的C库实现拉取数据与更新，而该功能目前已经在CUPOJ Judger中移除。
+
+数据的更新和获得通过文件及Socket获取。判题机本身可独立于数据库运行，这是CUPOJ Judger和HUSTOJ判题机的另一大区别。
+
+目前判题机的mysql接口已经被单独封装成抽象基类，通过引用动态库调用具体实现。
+
+CUPOJ Judger的所有动态库均定位在`/usr/lib/cupjudge`目录下。
+
+事实证明，通过使用策略模式重构判题机更有利于解耦判题机中的功能，实现开闭原则。
+
+下面将具体讲述如何针对判题机开发新语言模组
+
+### 为Judger开发新语言模组
+CUPOJ Judger语言模组均继承`Language`基类，该基类为抽象类，成员为
+```cpp
+#ifndef JUDGE_CLIENT_LANGUAGE_H
+#define JUDGE_CLIENT_LANGUAGE_H
+#define extlang extern "C" Language*
+#define deslang extern "C" void
+#define HOJ_MAX_LIMIT (-1)
+const int call_array_size = 512;
+#include <vector>
+#include <string>
+#include <sys/resource.h>
+class Language {
+public:
+    virtual void run(int memory) = 0;
+    virtual void setProcessLimit();
+    virtual void setCompileProcessLimit();
+    virtual void compile(std::vector<std::string>&, const char*, const char*);
+    virtual void buildRuntime(const char* work_dir);
+    virtual double buildTimeLimit(double timeLimit, double bonus);
+    virtual int buildMemoryLimit(int memoryLimit, int bonus);
+    virtual void setExtraPolicy(const char* oj_home, const char* work_dir);
+    virtual void initCallCounter(int* call_counter) = 0;
+    virtual void setCompileExtraConfig();
+    virtual void setCompileMount(const char* work_dir);
+    virtual int getCompileResult(int status);
+    virtual int fixACStatus(int acFlag);
+    virtual int getMemory(rusage ruse, pid_t pid);
+    virtual void buildChrootSandbox(const char* work_dir);
+    virtual void runMemoryLimit(rlimit& LIM);
+    virtual void fixACFlag(int& ACflg);
+    virtual bool enableSim();
+    virtual void fixFlagWithVMIssue(char *work_dir, int &ACflg, int &topmemory,int mem_lmt);
+    virtual std::string getFileSuffix() = 0;
+    virtual bool gotErrorWhileRunning(bool error);
+    virtual bool isValidExitCode(int exitcode);
+    virtual ~Language();
+protected:
+    virtual void setCPULimit();
+    virtual void setFSizeLimit();
+    virtual void setASLimit();
+    virtual void setAlarm();
+};
+
+typedef Language* createLanguageInstance();
+
+typedef void destroyLanguageInstance(Language*);
+
+
+#endif //JUDGE_CLIENT_LANGUAGE_H
+
+```
+
+下面将具体讲述该基类各个部分的含义与具体功能。
+
+```cpp
+#define extlang extern "C" Language*
+#define deslang extern "C" void
+```
+`extlang`和`deslang`是一组宏定义。当判题机需要引入一个语言模组，会调用`getLanguageModel`方法:
+
+#### getLanguageModel
+```cpp
+Language* getLanguageModel(int language) {
+    string languageName = languageNameReader.GetString(to_string(language));
+    void* languageHandler = dlopen(("/usr/lib/cupjudge/lib" + languageName + ".so").c_str(), RTLD_LAZY);
+    if (!languageHandler) {
+        cerr << "Cannot load library: " << dlerror() << endl;
+        exit(1);
+    }
+    dlerror();
+    createLanguageInstance* createInstance = (createLanguageInstance*) dlsym(languageHandler, (string("createInstance") + languageName).c_str());
+    const char* dlsym_error = dlerror();
+    if (dlsym_error) {
+        cerr << "Cannot load symbol create: " << dlsym_error << endl;
+        exit(1);
+    }
+//    destroyLanguageInstance* destroyInstance = (destroyLanguageInstance*) dlsym(languageHandler, (string("destroyInstance") + languageName).c_str());
+//    dlsym_error = dlerror();
+//    if (dlsym_error) {
+//        cerr << "Cannot load symbol create: " << dlsym_error << endl;
+//        exit(1);
+//    }
+
+    Language* languageInstance = createInstance();
+    return languageInstance;
+}
+```
+
+如以上代码，不难发现该方法通过languageNameReader根据`lang`变量读取了一个字符串。
+
+其中,`languageNameReader`是一个JSON类的封装，在这里读取了`/home/judge/etc/language.json`文件。
+
+该文件中设置了`lang`变量与对应动态链接库文件名的映射。
+
+因此在这里，我们从`languageNameReader`拿到了动态链接库名，并使用`dlfcn.h`头文件动态引入`Language`基类的语言实现实例指针，并返回。
+
+在代码中，我们发现`createInstance`方法是取自`lib${languageName}.so`文件中使用`extern "C" createInstance${languageName}()`暴露的方法。
+
+而在上面，我们提到`extlang`,`deslang`这一组宏定义。这组宏定义用于定义暴露给Judger调用的一组构造和析构函数。
+
+暴露的两个方法名称需要遵守以下命名方式:
+`createInstance${languageName}()`
+`destroyInstance${languageName}(Language*)`
+`languageName`与`language.json`中的语言名对应。
+
+如在`language.json`中定义了`C11`语言字段为`"0": "c11"`
+那么这两个方法则命名为:
+`createInstancec11()`
+`destroyInstancec11(Language*)`
+
+而在`getLanguageModel`中则使用`createInstancec11`拿到构造函数的返回指针。
+
+```cpp
+#define HOJ_MAX_LIMIT (-1)
+```
+
+该宏定义定义了允许的syscall的值。
+可通过在`syscall`目录下设定syscall32.h与syscall64.h头文件，定义判题过程中允许的syscall。
+判题机会通过ptrace跟踪用户程序运行中使用的syscall，并在用户程序调用syscall之前进行检查。
+未经允许的syscall调用将会被判题机以`RUNTIME ERROR`结束进程。
+
+```cpp
+virtual void run(int memory) = 0;
+```
+
+该方法定义了判题机启动用户已编译的程序文件所调用的方法。
+以`C11`为例，该方法的实现为
+```cpp
+void C11::run(int memory) {
+    execl("./Main", "./Main", (char *) nullptr);
+}
+```
+
+需要注意的是，该方法强制重写，所有语言模组必须自行重写该纯虚函数。
+调用则需要以`execl`方法启动。在判题机中，该进程将会作为Judger的子进程`fork`出来，并重定向了输入输出文件流及错误流。
+`execl`的使用方法请参考Linux C中关于exec系列函数的手册。
+
+```cpp
+virtual void setProcessLimit();
+```
+
+该方法设定用户程序运行时的进程数限制。
+考虑到不同语言的代码运行时会运行的进程数量不同，请根据判题实际可能使用的进程数进行限制。
+`Language`默认提供一个`setrlimit`NPROC为1的实现。若该方法不被重写，则限制用户进程仅允许一个进程。
+
+```cpp
+virtual void setCompileProcessLimit();
+```
+
+该方法限制判题机在编译用户代码过程中的系统资源限制。
+考虑到不同语言的编译过程对资源要求的不同，该方法建议重写。
+方法默认提供一个基本的资源限制，适用于C及C++语言环境的要求。
+该方法默认调用`protected`中提供的`set*`函数，用于设置编译器资源使用限制，以防止编译炸弹的安全隐患。
+
+因此重写该方法时，请注意一并重写`protected`下的所有`set`方法。
+
+```cpp
+    virtual void compile(std::vector<std::string>&, const char*, const char*);
+```
+
+该方法提供了一个通用语言具体的compile流程。`Language`基类提供了一个通配编译流程，可以不用重写该方法。
+
+不过仍然需要注意的是，编译的shell参数表保存在`/home/judge/etc/compile.json`文件中，以
+`[语言id]:[编译参数数组]`的json文件保存，因此需要手动为该文件添加编译参数，使Judger能够将编译参数数组读入并传入该`compile`方法。
+
+目前所有语言中仅`Java`语言需要重写该方法，因为其编译需要`java_xms`和`java_xmx`两个参数。
+
+```cpp
+    virtual void buildRuntime(const char* work_dir);
+```
+
+该方法在创建沙箱时调用。
+该方法将该语言需要的运行时复制到`/home/judge/run${runid}/`目录下。
+
+运行时，判题机在根据情况将环境`chroot`到沙箱中，因此要将运行时依赖的库文件拷贝到这里。
+
+`Language`基类提供了一套`shell`的动态库依赖的拷贝方案，而对于C语言等可编译静态库、独立运行的二进制程序，该过程可以忽略。
+因此需要强制重写该方法并留空运行内容。
+
+而对于其他的需要运行时的语言，则不仅要调用基类的方法，也要自行编写拷贝语言运行时动态库的过程。
+
+```cpp
+    virtual double buildTimeLimit(double timeLimit, double bonus);
+    virtual int buildMemoryLimit(int memoryLimit, int bonus);
+```
+
+该方法用于设置用户程序运行时限。传入两个参数分别是
+* timeLimit: 题目设置时间限制
+* memoryLimit: 题目设置内存限制
+* bonus: 预设的语言延长时限
+
+返回值是判题机将采纳的时间限制。
+
+由于约定俗成的某些规矩，我们可以对某些运行比较慢的运行时适当给出宽限时间空间，因此可通过重写该方法，返回一个合适的时间限制。
+
+**但是请不要在这里恶作剧，这样对自己没有好处，对做题者也没有好处。**
+
+该方法默认提供一个直接返回`timeLimit`(`memoryLimit`)的函数。建议C/C++不要重写该方法，其他语言可适当重写该方法。
+
+```cpp
+    virtual void setExtraPolicy(const char* oj_home, const char* work_dir);
+```
+
+这个方法用于设置语言附加的一些特性或限制。目前仅限用于Java语言设置`policy`。
+若有其他需要额外添加的特性，可以考虑加入。
+
+```cpp
+    virtual void initCallCounter(int* call_counter) = 0;
+```
+
+初始化syscall追踪数组。
+
+该方法将会传入一个数组，用于`ptrace`记录调用过的syscall。
+由于不同语言运行过程中可能调用不同的syscall，因此请使用record模式先对一个默认程序运行，根据输出的内容设置syscall。
+
+关于这一个部分的设置，请参考`C11`对于syscall的设置方法，这里先不详细展开。
+
+该方法强制重写。
+
+```cpp
+    virtual void setCompileExtraConfig();
+```
+
+该方法在`compile`运行前调用。用于为编译流程添加额外的设置。
+
+在实际使用中有Pascal和Freebasic需要重定向输入流，其他语言可以不重写(因为一般用不上)。
+
+```cpp
+    virtual void setCompileMount(const char* work_dir);
+```
+
+该方法将系统的一些文件夹绑定到沙箱中。
+
+由于编译过程中某些语言使用到了系统文件夹，为了保证这些语言能够成功编译，`Language`基类默认提供了几个基础文件夹的`mount`过程。
+
+对于不需要这些过程的语言，可以重写该方法并留空。
+
+若有其他mount设定，也可以重写该方法并自行定义该过程。
+
+```cpp
+    virtual int getCompileResult(int status);
+```
+
+该方法定义了获得编译结果的函数。
+
+该方法传入`status`，该值为运行`compile`cli程序获得的返回值。一般来说，该值应该为0，代表编译程序正常退出。
+
+考虑到某些语言即使返回0，也并不代表编译通过。因此需要重写该判断流程，通过return返回非0的编译错误结果。
+
+默认返回`status`。若非特别需要，可不重写。
+
+
 
 ## 分布式负载均衡
 由于CRUD API已充分和判题机、WebSocket服务解耦合，可通过设置反向代理实现负载均衡，进一步提升集群化后Express服务的性能。
