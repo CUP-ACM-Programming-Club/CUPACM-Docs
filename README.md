@@ -1,5 +1,5 @@
 # CUPACM-Docs
-[![Build Status](https://travis-ci.com/CUP-ACM-Programming-Club/CUPACM-Docs.svg?branch=master)](https://travis-ci.com/CUP-ACM-Programming-Club/CUPACM-Docs)
+![Publish releases to CDN repository](https://github.com/CUP-ACM-Programming-Club/CUPACM-Docs/workflows/Publish%20releases%20to%20CDN%20repository/badge.svg)
 
 中国石油大学（北京）程序设计俱乐部文档库
 
