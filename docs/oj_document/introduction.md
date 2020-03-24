@@ -185,7 +185,7 @@ virtual void setCompileProcessLimit();
 因此重写该方法时，请注意一并重写`protected`下的所有`set`方法。
 
 ```cpp
-    virtual void compile(std::vector<std::string>&, const char*, const char*);
+virtual void compile(std::vector<std::string>&, const char*, const char*);
 ```
 
 该方法提供了一个通用语言具体的compile流程。`Language`基类提供了一个通配编译流程，可以不用重写该方法。
@@ -196,7 +196,7 @@ virtual void setCompileProcessLimit();
 目前所有语言中仅`Java`语言需要重写该方法，因为其编译需要`java_xms`和`java_xmx`两个参数。
 
 ```cpp
-    virtual void buildRuntime(const char* work_dir);
+virtual void buildRuntime(const char* work_dir);
 ```
 
 该方法在创建沙箱时调用。
@@ -210,7 +210,7 @@ virtual void setCompileProcessLimit();
 而对于其他的需要运行时的语言，则不仅要调用基类的方法，也要自行编写拷贝语言运行时动态库的过程。
 
 ```cpp
-    virtual double buildTimeLimit(double timeLimit, double bonus);
+virtual double buildTimeLimit(double timeLimit, double bonus);
     virtual int buildMemoryLimit(int memoryLimit, int bonus);
 ```
 
@@ -228,14 +228,14 @@ virtual void setCompileProcessLimit();
 该方法默认提供一个直接返回`timeLimit`(`memoryLimit`)的函数。建议C/C++不要重写该方法，其他语言可适当重写该方法。
 
 ```cpp
-    virtual void setExtraPolicy(const char* oj_home, const char* work_dir);
+virtual void setExtraPolicy(const char* oj_home, const char* work_dir);
 ```
 
 这个方法用于设置语言附加的一些特性或限制。目前仅限用于Java语言设置`policy`。
 若有其他需要额外添加的特性，可以考虑加入。
 
 ```cpp
-    virtual void initCallCounter(int* call_counter) = 0;
+virtual void initCallCounter(int* call_counter) = 0;
 ```
 
 初始化syscall追踪数组。
@@ -248,7 +248,7 @@ virtual void setCompileProcessLimit();
 该方法强制重写。
 
 ```cpp
-    virtual void setCompileExtraConfig();
+virtual void setCompileExtraConfig();
 ```
 
 该方法在`compile`运行前调用。用于为编译流程添加额外的设置。
@@ -256,7 +256,7 @@ virtual void setCompileProcessLimit();
 在实际使用中有Pascal和Freebasic需要重定向输入流，其他语言可以不重写(因为一般用不上)。
 
 ```cpp
-    virtual void setCompileMount(const char* work_dir);
+virtual void setCompileMount(const char* work_dir);
 ```
 
 该方法将系统的一些文件夹绑定到沙箱中。
@@ -268,7 +268,7 @@ virtual void setCompileProcessLimit();
 若有其他mount设定，也可以重写该方法并自行定义该过程。
 
 ```cpp
-    virtual int getCompileResult(int status);
+virtual int getCompileResult(int status);
 ```
 
 该方法定义了获得编译结果的函数。
@@ -279,6 +279,112 @@ virtual void setCompileProcessLimit();
 
 默认返回`status`。若非特别需要，可不重写。
 
+```cpp
+virtual int fixACStatus(int acFlag);
+```
+该方法用于在某些特殊情况修复AC结果
+
+该方法传入AC状态。
+
+该方法在运行结束后执行。
+
+考虑到像CPython环境(或其他语言)可能将运行错误等其他错误通过`stdout`或者`stderr`输出。
+
+因此可以通过该函数插桩，修改判题结果。
+
+```cpp
+virtual int getMemory(rusage ruse, pid_t pid);
+```
+
+该方法用于返回程序运行内存。
+
+传入`wait4`返回的ruse和用户程序pid。
+
+根据不同的运行时可能有不同的内存使用检测方法。
+
+该方法有缺省返回。若非特别需要，可以不用重写该方法
+
+```cpp
+virtual void buildChrootSandbox(const char* work_dir);
+```
+
+该方法用于构建chroot环境。
+
+一般不需要重写该方法。
+
+然而，针对类似Java语言在chroot以后无法运行的情况，因此本方法需要重写为一个空函数。
+
+```cpp
+virtual std::string getFileSuffix() = 0;
+```
+
+该方法用于返回该语言的通用文件后缀。
+
+用户代码将会作为文件写入磁盘，为了编译器正确识别文件，需要强制重写该方法。
+
+```cpp
+virtual void fixACFlag(int& ACflg);
+```
+
+该方法与`fixACStatus`相同。
+
+唯一的区别是该方法在`judge_solution`后运行，`fixACStatus`在`judge_solution`过程中运行。
+
+```cpp
+virtual bool enableSim();
+```
+
+该方法返回判题机是否启动判重功能的flag。
+
+默认返回`false`
+
+由于判题机支持的判重程序支持的语言有限，请查阅`SIM similarity`的支持语言后决定该方法是否重写。
+
+建议C/C++/Java语言强制开启。
+
+```cpp
+virtual void fixFlagWithVMIssue(char *work_dir, int &ACflg, int &topmemory,int mem_lmt);
+```
+
+该方法用于修复由于VM问题导致的错误AC结果。
+
+请注意，该方法和VM运行机制强相关，因此请确认该方法在判题机的运行顺序的关系并查阅判题机的Java实现对于该方法的使用后，再决定该方法如何重写。
+
+一般不需要重写该方法。
+
+```cpp
+virtual bool gotErrorWhileRunning(bool error);
+```
+
+该方法用于判断用户程序运行过程检测到`error.out`文件有输出时，是否应该继续。
+
+该方法传入的`error`代表`error.out`，即`stderr`是否有输出。
+
+考虑到如C/C++语言，若用户程序输出错误，则说明用户程序已经无法继续运行，应该停止。
+
+而其他某些语言中，错误输出可能出现在内核或者VM部分，这时也许可以继续运行。
+
+因此请仔细考虑有错误输出时是否应该继续。
+
+一般情况请重写该方法。
+
+```cpp
+virtual bool isValidExitCode(int exitcode);
+```
+
+该方法用于判断程序的返回值是否为合法返回值。
+
+传入`exitcode`是用户进程结束时返回的code。
+
+对于一般情况，返回`0`代表程序正常退出，而其他的数字代表不正常的结果。
+
+而对于某些情况，VM可能会fork多个进程，或者程序自动使用多进程的模式执行，而退出的代码不为`0`。
+
+因此请根据该语言的退出码决定如何重写该方法。
+
+该方法提供缺省的判断条件。
+
+一般不需要重写。
 
 
 ## 分布式负载均衡
