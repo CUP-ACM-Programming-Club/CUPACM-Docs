@@ -29,6 +29,60 @@ CUPOJ Judger的所有动态库均定位在`/usr/lib/cupjudge`目录下。
 
 ### 为Judger开发新语言模组
 CUPOJ Judger语言模组均继承`Language`基类，该基类为抽象类，成员为
+
+<mermaid>
+classDiagram
+    class Language
+    Language: #int DEBUG
+    Language: +run(int memory) void
+    Language: +setProcessLimit() void
+    Language: +setCompileProcessLimit() void
+    Language: +compile(std::vector<std::string>&, const char*, const char*) void
+    Language: +buildRuntime(const char* work_dir) void
+    Language: +double buildTimeLimit(double timeLimit, double bonus)
+    Language: +buildMemoryLimit(int memoryLimit, int bonus) int
+    Language: +setExtraPolicy(const char* oj_home, const char* work_dir) void
+    Language: +initCallCounter(int* call_counter) void
+    Language: +setCompileExtraConfig() void
+    Language: +setCompileMount(const char* work_dir) void
+    Language: +getCompileResult(int status) int
+    Language: +fixACStatus(int acFlag) int
+    Language: +getMemory(rusage ruse, pid_t pid) int
+    Language: +buildChrootSandbox(const char* work_dir) void
+    Language: +runMemoryLimit(rlimit& LIM) void
+    Language: +fixACFlag(int& ACflg) void
+    Language: +enableSim() bool
+    Language: +fixFlagWithVMIssue(char *work_dir, int &ACflg, int &topmemory,int mem_lmt) void
+    Language: +std::string getFileSuffix()
+    Language: +gotErrorWhileRunning(bool error) bool
+    Language: +isValidExitCode(int exitcode) bool
+    Language: #setCPULimit() void
+    Language: #setFSizeLimit() void
+    Language: #setASLimit() void
+    Language: #setAlarm() void
+</mermaid>
+
+<mermaid>
+classDiagram
+class Language
+class C11
+class C99
+class Cpp11
+ckass Clang
+Language<|--C11
+Language<|--Java
+Language<|--Bash
+Language<|--Csharp
+Language<|--Pascal
+Language<|--Python2
+Language<|--Python3
+C11<|--C99
+C11<|--Cpp11
+C11<|--Clang
+Java<|--Java 8
+Java<|--Java 7
+</mermaid>
+
 ```cpp
 #ifndef JUDGE_CLIENT_LANGUAGE_H
 #define JUDGE_CLIENT_LANGUAGE_H
@@ -246,6 +300,16 @@ virtual void initCallCounter(int* call_counter) = 0;
 关于这一个部分的设置，请参考`C11`对于syscall的设置方法，这里先不详细展开。
 
 该方法强制重写。
+
+
+```cpp
+virtual void buildSeccompSandbox()
+```
+
+设置Sccomp沙箱设置。
+该方法将根据Syscall设置创建一个基于seccomp的沙箱。该功能和ptrace实现的沙箱类似，据说会有一定的性能提升，可参考其他已实现的库的实现方式。
+
+该方法强烈建议重写。
 
 ```cpp
 virtual void setCompileExtraConfig();
