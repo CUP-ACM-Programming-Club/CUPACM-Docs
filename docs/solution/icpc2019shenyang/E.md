@@ -5,7 +5,7 @@ title: E.Gugugu's upgrade schemes
 ## 题意
 计算贝尔数(**Bell number**),对结果取$mod$
 ## 思路
-本题是原题: [BZOJ 3501(CUPOJ 4415)](http://next.cupacm.com/problem/submit/4415)
+本题是原题: [BZOJ 3501(CUPOJ 4415)](https://oj.cupacm.com/problem/submit/4415)
 用贝尔三角预处理贝尔数,对于$B_{n}, n \geq mod$的情况，有
 $$
 B_{p+n} \equiv B_n+B_{n+1}(\bmod p)
